@@ -183,6 +183,13 @@ static Core::System::ResultStatus RunCitra(const std::string& filepath) {
             });
     system.CoreTiming().ScheduleEvent(audio_stretching_ticks, audio_stretching_event);
 
+    std::atomic_bool stop_run;
+    system.Renderer().Rasterizer()->LoadDiskResources(
+            stop_run, [](VideoCore::LoadCallbackStage stage, std::size_t value, std::size_t total) {
+                LOG_DEBUG(Frontend, "Loading stage {} progress {} {}", static_cast<u32>(stage), value,
+                          total);
+            });
+
     // Start running emulation
     while (is_running) {
         if (!pause_emulation) {

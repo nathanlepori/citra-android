@@ -251,6 +251,9 @@ void Config::ReadValues() {
 
     // Update CFG file based on settings
     UpdateCFG();
+
+    // Utility
+    Settings::values.use_disk_shader_cache = sdl2_config->GetBoolean("Utility", "use_disk_shader_cache", true);
 }
 
 void Config::Reload() {
